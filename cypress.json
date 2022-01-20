@@ -1,0 +1,9 @@
+{
+  "baseUrl": "https://www.saucedemo.com",
+  "pageUrl": {
+    "login": "/",
+    "product": "/inventory.html",
+    "cart": "/cart.html"
+  },
+  "testFiles": "**/*.feature"
+}
