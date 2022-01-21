@@ -20,5 +20,9 @@
     "performance glitch user": {
         "username": "performance_glitch_user",
         "password": "secret_sauce"
+    },
+    "non existing user": {
+        "username": "random_user",
+        "password": "something"
     }
 }

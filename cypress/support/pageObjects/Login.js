@@ -2,11 +2,17 @@ export class Login {
     get usernameField() {
         return cy.get('[data-test=username]');
     }
+
     get passwordField() {
         return cy.get('[data-test=password]');
     }
+
     get loginButton() {
         return cy.get('[data-test=login-button]');
+    }
+
+    get errorMessage() {
+        return cy.get('[data-test=error]');
     }
 
     navigate() {

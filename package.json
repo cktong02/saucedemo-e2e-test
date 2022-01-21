@@ -4,11 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npx cypress run"
+    "test": "npx cypress run --config-file ./config/demo.json",
+    "test-prod": "npx cypress run --config-file ./config/prod.json"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@bahmutov/cypress-extends": "^1.1.0",
     "cypress": "^9.3.1",
     "cypress-cucumber-preprocessor": "^4.3.1"
   },

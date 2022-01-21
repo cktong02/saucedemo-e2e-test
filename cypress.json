@@ -1,10 +1,13 @@
 {
-  "baseUrl": "https://www.saucedemo.com",
+  "env": {
+    "TAGS": "not @ignore"
+  },
   "pageUrl": {
     "login": "/",
     "product": "/inventory.html",
     "cart": "/cart.html",
     "checkout complete": "/checkout-complete.html"
   },
-  "testFiles": "**/*.feature"
+  "testFiles": "**/*.feature",
+  "$schema": "https://on.cypress.io/cypress.schema.json"
 }
