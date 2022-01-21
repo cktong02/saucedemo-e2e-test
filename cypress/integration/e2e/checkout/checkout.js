@@ -7,11 +7,6 @@ import cartPage from '../../../support/pageObjects/Cart';
 import checkoutStep1Page from '../../../support/pageObjects/CheckoutStep1';
 import checkoutStep2Page from '../../../support/pageObjects/CheckoutStep2';
 
-defineParameterType({
-    name: "number",
-    regexp: /\d+/
-});
-
 Given('user opens login page', () => {
     loginPage.navigate();
 })
@@ -35,16 +30,11 @@ Given('there exist cart item', () => {
 })
 
 When('user logins as {string}', (userType) => {
-    cy.fixture('users').then(users => {
-        const targetUser = users[userType];
-        if (!targetUser) {
-            const errorMessage = `User type "${userType}" not found in test data.`;
-            cy.log(errorMessage);
-            throw errorMessage;
-        }
-        const {username, password} = targetUser;
-        loginPage.login(username, password);
-    });
+    cy.getUser(userType)
+        .then(targetUser => {
+            const {username, password} = targetUser;
+            loginPage.login(username, password);
+        });
 })
 
 When('user sorts items by price high to low', () => {
@@ -65,18 +55,13 @@ When('user checkout', () => {
 })
 
 When('{string} confirms payment info', (userType) => {
-    cy.fixture('users').then(users => {
-        const targetUser = users[userType];
-        if (!targetUser) {
-            const errorMessage = `User type "${userType}" not found in test data.`;
-            cy.log(errorMessage);
-            throw errorMessage;
-        }
-        const {firstName, lastName, postalCode} = targetUser;
-        checkoutStep1Page.fillPaymentInfo(firstName, lastName, postalCode)
-            .continuePayment();
-        checkoutStep2Page.finishPayment();
-    });
+    cy.getUser(userType)
+        .then(targetUser => {
+            const {firstName, lastName, postalCode} = targetUser;
+            checkoutStep1Page.fillPaymentInfo(firstName, lastName, postalCode)
+                .continuePayment();
+            checkoutStep2Page.finishPayment();
+        });
 })
 
 Then(/user lands on (product|cart|checkout complete) page/, (pageName) => {
@@ -109,6 +94,6 @@ Then(/each item is (more|less) expensive than following item/, (ranking) => {
     });
 })
 
-Then('user sees {number} items in basket', (count) => {
+Then(/user sees (\d+) items in basket/, (count) => {
     productPage.cartBadge.should('have.text', count);
 })

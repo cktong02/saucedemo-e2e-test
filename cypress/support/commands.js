@@ -23,3 +23,15 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('getUser', (userType) => {
+    return cy.fixture('users').then(users => {
+        const targetUser = users[userType];
+        if (!targetUser) {
+            const errorMessage = `User type "${userType}" not found in test data.`;
+            cy.log(errorMessage);
+            throw errorMessage;
+        }
+        return targetUser;
+    });
+})
