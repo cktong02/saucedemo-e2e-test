@@ -4,6 +4,8 @@ import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 import loginPage from '../../../support/pageObjects/Login';
 import productPage from '../../../support/pageObjects/Product';
 import cartPage from '../../../support/pageObjects/Cart';
+import checkoutStep1Page from '../../../support/pageObjects/CheckoutStep1';
+import checkoutStep2Page from '../../../support/pageObjects/CheckoutStep2';
 
 defineParameterType({
     name: "number",
@@ -26,6 +28,10 @@ Given('there are product items', () => {
 
 Given('basket is empty', () => {
     productPage.hasEmptyBasket();
+})
+
+Given('there exist cart item', () => {
+    cartPage.hasItem();
 })
 
 When('user logins as {string}', (userType) => {
@@ -52,10 +58,28 @@ When('user adds the cheapest & costliest products to basket', () => {
 
 When('user opens basket', () => {
     productPage.openBasket();
-    // cartPage.navigate();
 })
 
-Then(/user lands on (product|cart) page/, (pageName) => {
+When('user checkout', () => {
+    cartPage.checkout();
+})
+
+When('{string} confirms payment info', (userType) => {
+    cy.fixture('users').then(users => {
+        const targetUser = users[userType];
+        if (!targetUser) {
+            const errorMessage = `User type "${userType}" not found in test data.`;
+            cy.log(errorMessage);
+            throw errorMessage;
+        }
+        const {firstName, lastName, postalCode} = targetUser;
+        checkoutStep1Page.fillPaymentInfo(firstName, lastName, postalCode)
+            .continuePayment();
+        checkoutStep2Page.finishPayment();
+    });
+})
+
+Then(/user lands on (product|cart|checkout complete) page/, (pageName) => {
     cy.url().should('eq', `${Cypress.config().baseUrl}${Cypress.config().pageUrl[pageName]}`)
 })
 
@@ -87,8 +111,4 @@ Then(/each item is (more|less) expensive than following item/, (ranking) => {
 
 Then('user sees {number} items in basket', (count) => {
     productPage.cartBadge.should('have.text', count);
-})
-
-When('user opens cart page', () => {
-    cartPage.navigate();
 })

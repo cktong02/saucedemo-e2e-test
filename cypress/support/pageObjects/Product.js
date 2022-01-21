@@ -28,10 +28,6 @@ export class Product {
         return cy.get('button.btn_inventory');
     }
 
-    get cartButton() {
-        return cy.get('.shopping_cart_link');
-    }
-
     isCurrentPage() {
         return cy.url().then(url => {
             return url.endsWith(Cypress.config().pageUrl.product);
@@ -66,10 +62,7 @@ export class Product {
     }
 
     openBasket() {
-        cy.scrollTo(0, 0);
-        this.cartButton.should('be.visible');
-        this.cartButton.click();
-        // this.cartBadge.click();
+        this.cartBadge.click();
     }
 }
 

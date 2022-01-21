@@ -3,7 +3,8 @@
   "pageUrl": {
     "login": "/",
     "product": "/inventory.html",
-    "cart": "/cart.html"
+    "cart": "/cart.html",
+    "checkout complete": "/checkout-complete.html"
   },
   "testFiles": "**/*.feature"
 }

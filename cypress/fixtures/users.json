@@ -1,11 +1,17 @@
 {
     "standard user": {
         "username": "standard_user",
-        "password": "secret_sauce"
+        "password": "secret_sauce",
+        "firstName": "John",
+        "lastName": "Doe",
+        "postalCode": "WC2R 2PP"
     },
     "locked out user": {
         "username": "locked_out_user",
-        "password": "secret_sauce"
+        "password": "secret_sauce",
+        "firstName": "Ray",
+        "lastName": "Sin",
+        "postalCode": "EC3V 9AA"
     },
     "problem user": {
         "username": "problem_user",
